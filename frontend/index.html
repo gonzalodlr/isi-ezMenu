@@ -1,11 +1,87 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>ezMenu - Main Page</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ezMenu</title>
+  <!-- Enlace a la biblioteca de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <h1>Welcome to ezMenu Page</h1>
-    <p>This is the homepage of my website.</p>
+
+  <!-- Header con el navbar -->
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">ezMenu Logo</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home Page</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Cart</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  
+  <!-- Contenedor del search bar -->
+  <div class="container search-container">
+    <div class="row">
+      <div class="col-lg-4 offset-lg-4">
+        <input type="text" class="form-control" placeholder="Search...">
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenido principal -->
+  <div class="container">
+    <div class="row">
+      <!-- Columna para las cards -->
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            Card 1
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            Card 2
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card mb-3">
+          <div class="card-body">
+            Card 3
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center mt-auto">
+    <p>© 2024 ezMenu. All rights reserved.</p>
+  </footer>
+
+  <!-- Script de Bootstrap (opcional si deseas funcionalidades como el navbar-toggle) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
