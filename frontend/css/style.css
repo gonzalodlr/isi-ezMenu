@@ -47,3 +47,9 @@ footer {
   border-radius: 20px; /* Bordes redondeados */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
 }
+
+/* Section Cards */
+.cards-section {
+  padding: 50px 0;
+  background-color: #f8f9fa;
+}
