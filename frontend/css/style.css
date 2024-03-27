@@ -1,17 +1,49 @@
+ /* Me permite deslizar cuando hago clic en los links del menu */
+html {
+  scroll-behavior: smooth;
+}
 /* Estilos para el logo */
+header .bg-light {
+  --bs-bg-opacity: 1;
+  background-color: #484848 !important; /* Reemplaza "tu-color" con el color que desees */
+}
+.nav {
+  color: white;
+}
 .navbar-brand {
     font-size: 1.5rem;
+    color: white;
   }
-  /* Estilos para el footer */
-  footer {
-    background-color: #f8f9fa;
-    color: #6c757d;
+.nav-link {
+  color: white;
+}
+/* Estilos para el footer */
+footer {
+    background-color: #484848;
+    color: white;
     padding: 20px 0;
-  }
-  /* Estilos para el contenedor del search bar */
-  .search-container {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
+}
+/* Section Inicio */
+
+.inicio-section {
+  height: 100vh;
+  background: linear-gradient(
+      to top,
+      rgba(30, 35, 38, 0.4),
+      rgba(30, 35, 38, 0.7)
+    ),
+    url('../assets/img/restaurant.png');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.search-box {
+  background-color: white; /* Fondo blanco */
+  padding: 20px;
+  border-radius: 20px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
+}

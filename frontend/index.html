@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ezMenu</title>
+  <meta name="description" content="Web personal a modo de curriculum de Gonzalo De Los Reyes Sánchez.">
+  <meta name="keywords"
+    content="menu, crear menu, restaurante, carta, recetas, generador de menus, generador de cartas, qr menu, aprender recetas">
+  <meta name="author" content="ezMenu">
+  <meta name="copyright" content="ezMenu">
+  <link rel="icon" href="assets/logo.png">
   <!-- Enlace a la biblioteca de Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="./css/style.css">
 </head>
+
 <body>
 
   <!-- Header con el navbar -->
@@ -16,7 +25,8 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
         <a class="navbar-brand" href="#">ezMenu Logo</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -38,16 +48,28 @@
       </div>
     </nav>
   </header>
-  
-  <!-- Contenedor del search bar -->
-  <div class="container search-container">
-    <div class="row">
-      <div class="col-lg-4 offset-lg-4">
-        <input type="text" class="form-control" placeholder="Search...">
+
+  <!-- Section Inicio-->
+  <section class="inicio-section">
+    <div class="container text-center">
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+          <div class="search-box">
+            <h2 class="text-center">Search your food here</h2>
+            <form action="#" class="text-center">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Buscar...">
+              </div>
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
+
+  </section>
   <!-- Contenido principal -->
   <div class="container">
     <div class="row">
@@ -84,4 +106,5 @@
   <!-- Script de Bootstrap (opcional si deseas funcionalidades como el navbar-toggle) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
