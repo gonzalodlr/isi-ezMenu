@@ -30,3 +30,30 @@ cards.forEach((card) => {
   card.style.overflow = "hidden";
     card.style.position = "relative";
 });
+
+// Funcion que se ejecuta cuando el boton Search es presionado
+/*document.getElementById("searchButton").addEventListener("click", function() {
+  var searchTerm = document.getElementById("searchInput").value;
+  buscarComidas(searchTerm);
+});*/
+document.getElementById("searchForm").addEventListener("submit", function(event) {
+  event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
+  var searchTerm = document.getElementById("searchInput").value;
+  buscarComidas(searchTerm);
+});
+
+// Función para realizar la solicitud al backend con el término de búsqueda
+function buscarComidas(searchTerm) {
+  // Hacer la solicitud al backend (aquí iría tu código para hacer la solicitud HTTP)
+  // Supongamos que aquí enviamos una solicitud GET al endpoint '/buscar-comidas' en el backend
+  
+  fetch('http://127.0.0.1:5000/search-foods?searchTerm=' + searchTerm) // Suponiendo que el backend escucha en '/buscar-comidas'
+  .then(response => response.json())
+  .then(data => {
+      // Manejar los datos recibidos (en este caso, se supone que recibimos un array de objetos tipo Food)
+      console.log(data); // Puedes hacer lo que necesites con los datos
+  })
+  .catch(error => {
+      console.error('Error al buscar comidas:', error);
+  });
+}

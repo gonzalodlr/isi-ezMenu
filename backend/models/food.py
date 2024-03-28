@@ -74,4 +74,4 @@ class Food:
     def get_nutrition(self):
         return self.nutrition
     def __str__(self):
-        return f"Food(name={self.name}, id={self.id}, description={self.description}, thumbnail_url={self.thumbnail_url}, prep_time_minutes={self.prep_time_minutes}, cook_time_minutes={self.cook_time_minutes}, num_servings={self.num_servings}, instructions={self.instructions}, sections={self.sections}, user_ratings={self.user_ratings}, total_ratings={self.total_ratings}, video_url={self.video_url}, price={self.price}, ingredients={self.ingredients}, nutrition={self.nutrition})"
+        return f"Food(name={self.name}, id={self.id}, description={self.description}, thumbnail_url={self.thumbnail_url}, prep_time_minutes={self.prep_time_minutes}, cook_time_minutes={self.cook_time_minutes}, num_servings={self.num_servings}, instructions={self.instructions}, sections={self.sections}, user_ratings={self.user_ratings}, video_url={self.video_url}, price={self.price}, ingredients={self.ingredients}, nutrition={self.nutrition})"
