@@ -177,6 +177,12 @@ function buscarComidas(searchTerm) {
   
       
       })
+      const seccionCarrito = document.getElementById('carrito');
+      if (seccionCarrito) {
+        seccionCarrito.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        console.error('La sección "carrito" no existe en este archivo HTML.');
+      }
     //window.location.href = "carrito.html?foodList=" + encodeURIComponent(JSON.stringify(foodList));
     // Itera sobre la lista de alimentos y obtén el valor del campo "Name"
     /*foodList.forEach(food => {
