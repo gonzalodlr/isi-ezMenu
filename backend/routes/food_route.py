@@ -101,7 +101,7 @@ def serialize_food(food_list):
             "Name": food.get_name(),
             "ID": food.get_id(),
             "Description": food.get_description(),
-            "Thumbnail URL": food.get_thumbnail_url(),
+            "Thumbnail_URL": food.get_thumbnail_url(),
             "Prep Time Minutes": food.get_prep_time_minutes(),
             "Cook Time Minutes": food.get_cook_time_minutes(),
             "Num Servings": food.get_num_servings(),
