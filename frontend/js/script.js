@@ -79,10 +79,12 @@ const showHTML = () => {
 		cartEmpty.classList.remove('hidden');
 		rowProduct.classList.add('hidden');
 		cartTotal.classList.add('hidden');
+		crearmenu.classList.add('hidden');
 	} else {
 		cartEmpty.classList.add('hidden');
 		rowProduct.classList.remove('hidden');
 		cartTotal.classList.remove('hidden');
+		crearmenu.classList.remove('hidden');
 	}
 
 	// Limpiar HTML
