@@ -151,6 +151,8 @@ function buscarComidas(searchTerm) {
     foodList.forEach(food => {
       // creo un objeto de tipo Food con todos los datos de food
       const foodObj = new Food(food)
+      // introduzco en el food_array el objeto
+      food_array.push(foodObj);
       console.log(food)
       const p = food.Price;
       const p1= p.portion;

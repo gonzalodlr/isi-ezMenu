@@ -1,19 +1,17 @@
 import os, requests
 from dotenv import load_dotenv
-from flask import Blueprint, Flask, jsonify, request
-from flask_cors import CORS
+from flask import Blueprint, jsonify, request
 from ..models.food import Food
 import json
 
-app = Flask(__name__)
-CORS(app)
+food_bp = Blueprint('food', __name__)
 # Load .env file
 load_dotenv()
 
 # Use the variable names as defined in .env file
 api_key = os.getenv("API_KEY")
 # Ruta de la carpeta 'assets'
-route = '../assets/'
+route = os.path.abspath('../backend/assets/')
 
 def exits_json(filename):
     # Verificar si la carpeta 'assets' existe
@@ -30,9 +28,6 @@ def exits_json(filename):
         return False
 
 def search_json_data(filename):
-    # Ruta de la carpeta 'assets'
-    route = '../assets/'
-
     # Verificar si la carpeta 'assets' existe
     if os.path.exists(route) and os.path.isdir(route):
         # Lista de archivos en la carpeta 'assets'
@@ -40,7 +35,7 @@ def search_json_data(filename):
 
         # Verificar si hay algún archivo 'search.json'
         if filename + '.json' in archivos:
-            with open(route + filename + '.json', 'r') as file:
+            with open(os.path.join(route, filename + '.json')) as file:
                 response = json.load(file)
             results = response.get("results", [])
             foods = []
@@ -71,7 +66,28 @@ def search_json_data(filename):
         # La carpeta 'assets' no existe
         return False
 
-@app.route('/search-foods', methods=['GET'])
+def serialize_food(food_list):
+    serialized_food = []
+    for food in food_list:
+        serialized_food.append({
+            "Name": food.get_name(),
+            "ID": food.get_id(),
+            "Description": food.get_description(),
+            "Thumbnail_URL": food.get_thumbnail_url(),
+            "Prep Time Minutes": food.get_prep_time_minutes(),
+            "Cook Time Minutes": food.get_cook_time_minutes(),
+            "Num Servings": food.get_num_servings(),
+            "Instructions": food.get_instructions(),
+            "Sections": food.get_sections(),
+            "User Ratings": food.get_user_ratings(),
+            "Video URL": food.get_video_url(),
+            "Price": food.get_price(),
+            "Ingredients": food.get_ingredients(),
+            "Nutrition": food.get_nutrition()
+        })
+    return json.dumps(serialized_food)
+
+@food_bp.route('/search-foods', methods=['GET'])
 def search_foods():
     searchTerm = request.args.get('searchTerm')
     if exits_json(searchTerm):
@@ -96,7 +112,7 @@ def search_foods():
             if response.status_code != 200:
                 return jsonify({"error": "The request was not successful"}), 500
             # Guarda la respuesta JSON en un archivo
-            with open('../assets/' + searchTerm + '.json', 'w') as file:
+            with open(os.path.join(route, searchTerm + '.json')) as file:
                 json.dump(response.json(), file)
             # Leer el archivo JSON en un array de objetos de la clase Food
             foods = search_json_data(searchTerm)
@@ -106,27 +122,3 @@ def search_foods():
         except requests.exceptions.RequestException as e:
             # Handle any request error
             return jsonify({"error": str(e)}), 500
-
-def serialize_food(food_list):
-    serialized_food = []
-    for food in food_list:
-        serialized_food.append({
-            "Name": food.get_name(),
-            "ID": food.get_id(),
-            "Description": food.get_description(),
-            "Thumbnail_URL": food.get_thumbnail_url(),
-            "Prep Time Minutes": food.get_prep_time_minutes(),
-            "Cook Time Minutes": food.get_cook_time_minutes(),
-            "Num Servings": food.get_num_servings(),
-            "Instructions": food.get_instructions(),
-            "Sections": food.get_sections(),
-            "User Ratings": food.get_user_ratings(),
-            "Video URL": food.get_video_url(),
-            "Price": food.get_price(),
-            "Ingredients": food.get_ingredients(),
-            "Nutrition": food.get_nutrition()
-        })
-    return json.dumps(serialized_food)
-
-if __name__ == '__main__':
-    app.run(debug=True)
