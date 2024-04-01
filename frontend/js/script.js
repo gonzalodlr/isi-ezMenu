@@ -1,3 +1,5 @@
+import { Food } from './models/food.js';
+
 const btnCart = document.querySelector('.container-cart-icon');
 const containerCartProducts = document.querySelector(
 	'.container-cart-products'
@@ -126,8 +128,7 @@ const showHTML = () => {
 	countProducts.innerText = totalOfProducts;
 };
 // Obtener todas las tarjetas
-const cards = document.querySelectorAll(".card");
-const imageUrl = "./assets/img/burger.jpg"; // URL de la imagen de fondo
+const food_array = []
 
 // Funcion que se ejecuta cuando el boton Search es presionado
 document.getElementById("searchForm").addEventListener("submit", function(event) {
@@ -144,14 +145,13 @@ function buscarComidas(searchTerm) {
   fetch('http://127.0.0.1:5000/search-foods?searchTerm=' + searchTerm) // Suponiendo que el backend escucha en '/buscar-comidas'
   .then(response => response.json())
   .then(data => {
-    console.log(data); // Compruebo respuesta del backend
+    //console.log(data); // Compruebo respuesta del backend
     const foodList = JSON.parse(data);
 
     foodList.forEach(food => {
-      /*const ima = food.Thumbnail_URL;
-          const name = food.Price;
-          const n1 = name.consumption_portion;
-          console.log(`Nombre del alimento: ${ima}`);*/
+      // creo un objeto de tipo Food con todos los datos de food
+      const foodObj = new Food(food)
+      console.log(food)
       const p = food.Price;
       const p1= p.portion;
         const article = document.createRange().createContextualFragment(`
