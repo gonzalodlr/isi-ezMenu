@@ -138,6 +138,38 @@ document.getElementById("searchForm").addEventListener("submit", function(event)
   var searchTerm = document.getElementById("searchInput").value;
   buscarComidas(searchTerm);
 });
+// Funcion que se ejecuta cuando el boton Crear Menu es presionado
+crearmenu.addEventListener('click', function() { 
+  const food_array_def = [];
+  allProducts.forEach(product => {
+    food_array.forEach(foodObj => {
+      if (product.title === foodObj.name) {
+        food_array_def.push(foodObj);
+      }
+      console.log(food_array_def)
+      //console.log(foodObj.name)
+      //console.log("hola")
+    });
+  });
+  const requestOptions = {
+    method: 'POST',
+    body: JSON.stringify(food_array_def),
+    headers: {
+      'Content-Type': 'application/json', // Tipo de contenido (JSON en este caso)
+    },
+  };
+  
+  // Realizar la solicitud
+  fetch('http://127.0.0.1:5000/pdf', requestOptions)
+    .then(response => response.json())
+    .then(data => {
+      console.log('Respuesta del servidor:', data);
+      // Aquí puedes manejar la respuesta del servidor según tus necesidades
+    })
+    .catch(error => {
+      console.error('Error al enviar la solicitud:', error);
+    });
+});
 
 // Función para realizar la solicitud al backend con el término de búsqueda
 function buscarComidas(searchTerm) {
