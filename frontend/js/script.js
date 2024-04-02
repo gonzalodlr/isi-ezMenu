@@ -25,6 +25,7 @@ const countProducts = document.querySelector('#contador-productos');
 
 const cartEmpty = document.querySelector('.cart-empty');
 const cartTotal = document.querySelector('.cart-total');
+const crearmenu = document.querySelector('.crear-menu');
 
 productsList.addEventListener('click', e => {
 	if (e.target.classList.contains('btn-add-cart')) {
