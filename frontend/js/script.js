@@ -1,11 +1,11 @@
 import { Food } from './models/food.js';
-
+/*
 const path = require('path');
 // Credenciales
 require('dotenv').config({ path: path.resolve(__dirname, '.../.env') });
 const URL_SERVER = process.env.BACKEND_URL;
 console.log(URL_SERVER)
-
+*/
 const btnCart = document.querySelector('.container-cart-icon');
 const containerCartProducts = document.querySelector(
 	'.container-cart-products'

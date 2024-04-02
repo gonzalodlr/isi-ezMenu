@@ -1,11 +1,16 @@
 import os
+import uuid  # Módulo para generar identificadores únicos
 from flask import Blueprint, jsonify, request
-from reportlab.lib import colors
-from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Image
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+import requests
+from backend.models.food import Food
 from reportlab.lib.units import inch
-from ..models.food import Food
+from reportlab.lib.utils import ImageReader
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Table, TableStyle
+from reportlab.lib import colors
+from reportlab.lib.styles import ParagraphStyle
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 pdf_bp = Blueprint('pdf', __name__)
 i = 0
@@ -39,44 +44,91 @@ def upload_pdf():
     # Genero Menu pdf
     generar_pdf(foods, pdf_name)
     # Enlace pdf generado
-    link_pdf = route + i + pdf_name
+    link_pdf = route + str(i) + pdf_name
     # Contesto con el link del pdf si todo ha salido bien
     return jsonify({"status": "success", "link": link_pdf})
 
 def generar_pdf(foods, pdf_name):
-    doc = SimpleDocTemplate(i + pdf_name, pagesize=letter)
-    styles = getSampleStyleSheet()
-
-    # Estilos personalizados
-    estilo_encabezado = styles["Heading1"]
-    estilo_texto = styles["BodyText"]
-    estilo_titulo = ParagraphStyle(
-        name='Titulo',
-        fontSize=24,
-        leading=28
-    )
-
-    data = [['Food Name', 'Description', 'Price', 'Image']]
+    c = canvas.Canvas(pdf_name, pagesize=letter)
 
     for food in foods:
-        data.append([food.nombre, food.descripcion, "${:.2f}".format(food.precio), food.foto])
+        c.setFont("Helvetica", 12)
+        y = 750
 
-    table = Table(data, colWidths=[2*inch, 3*inch, 1*inch, 1.5*inch])
-    table.setStyle(TableStyle([
-        ('BACKGROUND', (0, 0), (-1, 0), colors.gray),
-        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-        ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-        ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
+        response = requests.get(food.thumbnail_url)
+        if response.status_code == 200:
+            image_data = response.content
 
-    # Agregar Textos
-    encabezado = Paragraph("Restaurant Menu", estilo_titulo)
-    encabezado.alignment = 1  # 0=left, 1=center, 2=right
-    pie_pagina = Paragraph("Thanks for your visit :)", estilo_texto)
-    pie_pagina.alignment = 1
-    # Construir el documento
-    contenido = [encabezado, table, pie_pagina]
-    doc.build(contenido)
+            image_filename = str(uuid.uuid4()) + ".jpg"
+            image_path = image_filename
 
+            with open(image_path, 'wb') as f:
+                f.write(image_data)
+
+            # Colocar la imagen en el centro de la página arriba
+            c.drawImage(image_path, x=(letter[0]-200)/2, y=letter[1]-250, width=200, height=200)
+            os.remove(image_path)
+
+            # Colocar el nombre del alimento justo debajo de la imagen
+            c.drawCentredString(letter[0]/2, letter[1]-300, "Food Name: {}".format(food.name))
+            
+            # Colocar la descripción debajo del nombre del alimento
+            description_lines = text_wrap(food.description, c)
+            y -= len(description_lines) * 15 + 350
+            for line in description_lines:
+                c.drawCentredString(letter[0]/2, y, line)
+                y -= 15
+
+            # Colocar el precio centrado debajo de la descripción
+            c.drawCentredString(letter[0]/2, y - 10, "Price: ${:.2f}".format(food.price['portion']))
+
+            c.showPage()
+
+    c.save()
+
+def text_wrap(text, canvas, max_width=500):
+    lines = []
+    line = ''
+    for word in text.split():
+        if canvas.stringWidth(line + ' ' + word) < max_width:
+            line += ' ' + word
+        else:
+            lines.append(line)
+            line = word
+    lines.append(line)
+    return lines
+
+"""
+def generar_pdf(foods, pdf_name):
+    c = canvas.Canvas(pdf_name, pagesize=letter)
+    x = 0
+    for food in foods:
+        # Descargar la imagen desde la URL
+        response = requests.get(food.thumbnail_url)
+        if response.status_code == 200:
+            # Obtener los datos de la imagen
+            image_data = response.content
+
+            # Guardar la imagen en un archivo temporal
+            image_path = str(x) + "temp_image.jpg"
+            x += 1
+            with open(image_path, 'wb') as f:
+                f.write(image_data)
+
+            # Insertar la imagen en el PDF
+            c.drawImage(image_path, x=100, y=600, width=200, height=200)
+
+            # Eliminar el archivo temporal de la imagen
+            os.remove(image_path)
+
+            # Agregar información sobre el alimento
+            c.drawString(100, 500, "Food Name: {}".format(food.name))
+            c.drawString(100, 480, "Description: {}".format(food.description))
+            c.drawString(100, 460, "Price: ${:.2f}".format(food.price['portion']))
+
+            # Agregar un salto de página
+            c.showPage()
+
+    # Guardar el PDF
+    c.save()
+"""
