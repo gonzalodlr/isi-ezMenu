@@ -178,7 +178,7 @@ crearmenu.addEventListener('click', async function (event) {
     const data = await response.json();
 
     // Esperar 3 segundos antes de redirigir
-    await esperar(3000);
+    //await esperar(3000);
 
     if (data.status === "success") {
       pdf_url = 'http://127.0.0.1:5000/' + data.link;

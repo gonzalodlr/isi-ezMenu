@@ -1,7 +1,5 @@
 import base64
-import json
 import re
-import uuid
 from dotenv import load_dotenv
 from flask import Blueprint, jsonify, request
 import os, requests
