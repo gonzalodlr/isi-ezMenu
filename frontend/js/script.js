@@ -32,6 +32,7 @@ const countProducts = document.querySelector('#contador-productos');
 const cartEmpty = document.querySelector('.cart-empty');
 const cartTotal = document.querySelector('.cart-total');
 const crearmenu = document.querySelector('.crear-menu');
+const crearqr = document.querySelector('.crear-qr');
 
 productsList.addEventListener('click', e => {
   if (e.target.classList.contains('btn-add-cart')) {
@@ -87,11 +88,13 @@ const showHTML = () => {
     rowProduct.classList.add('hidden');
     cartTotal.classList.add('hidden');
     crearmenu.classList.add('hidden');
+    crearqr.classList.add('hidden');
   } else {
     cartEmpty.classList.add('hidden');
     rowProduct.classList.remove('hidden');
     cartTotal.classList.remove('hidden');
     crearmenu.classList.remove('hidden');
+    crearqr.classList.remove('hidden');
   }
 
   // Limpiar HTML
