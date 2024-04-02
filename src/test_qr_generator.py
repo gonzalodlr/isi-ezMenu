@@ -1,3 +1,4 @@
+import json
 import requests
 import os
 
@@ -19,9 +20,9 @@ if response.status_code == 200:
     # Specify the file path where you want to save the image
     file_path = "image.jpg"
 
-    # Write the binary content to the file
-    with open(file_path, "wb") as image_file:
-        image_file.write(response.content)
+    # Guardar la respuesta en un archivo JSON
+    with open('qr_response.json', 'w') as json_file:
+       json.dump(response.content, json_file)
 
     print(f"Image saved to {file_path}")
 else:

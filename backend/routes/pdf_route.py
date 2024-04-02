@@ -3,12 +3,6 @@ import uuid  # Módulo para generar identificadores únicos
 from flask import Blueprint, jsonify, request
 import requests
 from backend.models.food import Food
-from reportlab.lib.units import inch
-from reportlab.lib.utils import ImageReader
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Image, Table, TableStyle
-from reportlab.lib import colors
-from reportlab.lib.styles import ParagraphStyle
-from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
@@ -16,7 +10,7 @@ pdf_bp = Blueprint('pdf', __name__)
 i = 0
 pdf_name = "menu.pdf"
 route = os.path.abspath('../backend/assets/')
-
+pdf_path = os.path.join(route, pdf_name)
 @pdf_bp.route('/pdf', methods=['POST'])
 def upload_pdf():
     # Obtener los datos del array de objetos enviados desde el frontend
@@ -42,14 +36,14 @@ def upload_pdf():
         )
         foods.append(food)
     # Genero Menu pdf
-    generar_pdf(foods, pdf_name)
+    generar_pdf(foods)
     # Enlace pdf generado
-    link_pdf = route + str(i) + pdf_name
+    link_pdf = 'backend/assets/' + pdf_name
     # Contesto con el link del pdf si todo ha salido bien
     return jsonify({"status": "success", "link": link_pdf})
 
-def generar_pdf(foods, pdf_name):
-    c = canvas.Canvas(pdf_name, pagesize=letter)
+def generar_pdf(foods):
+    c = canvas.Canvas(pdf_path, pagesize=letter)
 
     for food in foods:
         c.setFont("Helvetica", 12)
@@ -87,6 +81,9 @@ def generar_pdf(foods, pdf_name):
     c.save()
 
 def text_wrap(text, canvas, max_width=500):
+    if text is None:
+        return ['']  # Devuelve una lista con una cadena vacía si text es None
+    
     lines = []
     line = ''
     for word in text.split():
@@ -97,38 +94,3 @@ def text_wrap(text, canvas, max_width=500):
             line = word
     lines.append(line)
     return lines
-
-"""
-def generar_pdf(foods, pdf_name):
-    c = canvas.Canvas(pdf_name, pagesize=letter)
-    x = 0
-    for food in foods:
-        # Descargar la imagen desde la URL
-        response = requests.get(food.thumbnail_url)
-        if response.status_code == 200:
-            # Obtener los datos de la imagen
-            image_data = response.content
-
-            # Guardar la imagen en un archivo temporal
-            image_path = str(x) + "temp_image.jpg"
-            x += 1
-            with open(image_path, 'wb') as f:
-                f.write(image_data)
-
-            # Insertar la imagen en el PDF
-            c.drawImage(image_path, x=100, y=600, width=200, height=200)
-
-            # Eliminar el archivo temporal de la imagen
-            os.remove(image_path)
-
-            # Agregar información sobre el alimento
-            c.drawString(100, 500, "Food Name: {}".format(food.name))
-            c.drawString(100, 480, "Description: {}".format(food.description))
-            c.drawString(100, 460, "Price: ${:.2f}".format(food.price['portion']))
-
-            # Agregar un salto de página
-            c.showPage()
-
-    # Guardar el PDF
-    c.save()
-"""
