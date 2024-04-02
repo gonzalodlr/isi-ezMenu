@@ -37,7 +37,7 @@ def upload_pdf():
         )
         foods.append(food)
     # Genero Menu pdf
-    generar_pdf(foods, )
+    generar_pdf(foods, pdf_name)
     # Enlace pdf generado
     link_pdf = route + i + pdf_name
     # Contesto con el link del pdf si todo ha salido bien
@@ -71,10 +71,11 @@ def generar_pdf(foods, pdf_name):
         ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
         ('GRID', (0, 0), (-1, -1), 1, colors.black)]))
 
-    # Agregar encabezado
+    # Agregar Textos
     encabezado = Paragraph("Restaurant Menu", estilo_titulo)
+    encabezado.alignment = 1  # 0=left, 1=center, 2=right
     pie_pagina = Paragraph("Thanks for your visit :)", estilo_texto)
-
+    pie_pagina.alignment = 1
     # Construir el documento
     contenido = [encabezado, table, pie_pagina]
     doc.build(contenido)

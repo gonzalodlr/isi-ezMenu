@@ -1,5 +1,11 @@
 import { Food } from './models/food.js';
 
+const path = require('path');
+// Credenciales
+require('dotenv').config({ path: path.resolve(__dirname, '.../.env') });
+const URL_SERVER = process.env.BACKEND_URL;
+console.log(URL_SERVER)
+
 const btnCart = document.querySelector('.container-cart-icon');
 const containerCartProducts = document.querySelector(
 	'.container-cart-products'
@@ -187,7 +193,7 @@ function buscarComidas(searchTerm) {
       const foodObj = new Food(food)
       // introduzco en el food_array el objeto
       food_array.push(foodObj);
-      console.log(food)
+      console.log(foodObj)
       const p = food.Price;
       const p1= p.portion;
         const article = document.createRange().createContextualFragment(`

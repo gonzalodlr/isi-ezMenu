@@ -112,7 +112,7 @@ def search_foods():
             if response.status_code != 200:
                 return jsonify({"error": "The request was not successful"}), 500
             # Guarda la respuesta JSON en un archivo
-            with open(os.path.join(route, searchTerm + '.json')) as file:
+            with open(os.path.join(route, searchTerm + '.json'), 'w') as file:
                 json.dump(response.json(), file)
             # Leer el archivo JSON en un array de objetos de la clase Food
             foods = search_json_data(searchTerm)
