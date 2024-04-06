@@ -1,4 +1,6 @@
 import { Food } from './models/food.js';
+const URL_BACKEND = 'http://127.0.0.1:5000/';
+var pdf_url = "";
 /*
 const path = require('path');
 // Credenciales
@@ -6,6 +8,8 @@ require('dotenv').config({ path: path.resolve(__dirname, '.../.env') });
 const URL_SERVER = process.env.BACKEND_URL;
 console.log(URL_SERVER)
 */
+
+// Cart JS
 const btnCart = document.querySelector('.container-cart-icon');
 const containerCartProducts = document.querySelector(
   '.container-cart-products'
@@ -32,7 +36,9 @@ const countProducts = document.querySelector('#contador-productos');
 const cartEmpty = document.querySelector('.cart-empty');
 const cartTotal = document.querySelector('.cart-total');
 const crearmenu = document.querySelector('.crear-menu');
+// QR button hidden until menu is created
 const crearqr = document.querySelector('.crear-qr');
+crearqr.classList.add('hidden');
 
 productsList.addEventListener('click', e => {
   if (e.target.classList.contains('btn-add-cart')) {
@@ -88,13 +94,11 @@ const showHTML = () => {
     rowProduct.classList.add('hidden');
     cartTotal.classList.add('hidden');
     crearmenu.classList.add('hidden');
-    crearqr.classList.add('hidden');
   } else {
     cartEmpty.classList.add('hidden');
     rowProduct.classList.remove('hidden');
     cartTotal.classList.remove('hidden');
     crearmenu.classList.remove('hidden');
-    crearqr.classList.remove('hidden');
   }
 
   // Limpiar HTML
@@ -139,17 +143,23 @@ const showHTML = () => {
   valorTotal.innerText = `$${total}`;
   countProducts.innerText = totalOfProducts;
 };
-// Obtener todas las tarjetas
+// Array de productos
 const food_array = []
-// Constante de enlace a pdf
-var pdf_url = "";
+
+// Función para limpiar la lista de productos
+function limpiarListaProductos() {
+  const container = document.querySelector(".container-items");
+  container.innerHTML = '';
+}
 
 // Funcion que se ejecuta cuando el boton Search es presionado
 document.getElementById("searchForm").addEventListener("submit", function (event) {
   event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
   var searchTerm = document.getElementById("searchInput").value;
+  limpiarListaProductos();
   buscarComidas(searchTerm);
 });
+
 // Funcion que se ejecuta cuando el boton Crear Menu es presionado
 crearmenu.addEventListener('click', async function (event) {
   event.preventDefault(); // Evita la recarga de la página
@@ -168,24 +178,19 @@ crearmenu.addEventListener('click', async function (event) {
     method: 'POST',
     body: JSON.stringify(food_array_def),
     headers: {
-      'Content-Type': 'application/json', // Tipo de contenido (JSON en este caso)
+      'Content-Type': 'application/json',
     },
   };
 
   // Realizar la solicitud
   try {
-    const response = await fetch('http://127.0.0.1:5000/pdf', requestOptions);
+    const response = await fetch(URL_BACKEND + 'pdf', requestOptions);
     const data = await response.json();
-
-    // Esperar 3 segundos antes de redirigir
-    //await esperar(3000);
-
+    
     if (data.status === "success") {
       pdf_url = 'http://127.0.0.1:5000/' + data.link;
-      //window.location.href = pdf_url;
-      // Si no se habilita, la nueva pestaña se bloquea
-      abrirEnlaceEnNuevaPestana('http://127.0.0.1:5000/' + data.link);
-      boton_hidden.style.display = "block";
+      abrirEnlaceEnNuevaPestana(pdf_url);
+      document.getElementById("qr_boton").classList.remove("hidden");
     } else {
       console.error("La solicitud no tuvo éxito:", data);
     }
@@ -198,24 +203,15 @@ function esperar(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-
 // Función para realizar la solicitud al backend con el término de búsqueda
 function buscarComidas(searchTerm) {
-  // Hacer la solicitud al backend (aquí iría tu código para hacer la solicitud HTTP)
-  // Supongamos que aquí enviamos una solicitud GET al endpoint '/buscar-comidas' en el backend
-
-  fetch('http://127.0.0.1:5000/search-foods?searchTerm=' + searchTerm) // Suponiendo que el backend escucha en '/buscar-comidas'
+  fetch(URL_BACKEND + 'search-foods?searchTerm=' + searchTerm)
     .then(response => response.json())
     .then(data => {
-      //console.log(data); // Compruebo respuesta del backend
       const foodList = JSON.parse(data);
-
       foodList.forEach(food => {
-        // creo un objeto de tipo Food con todos los datos de food
         const foodObj = new Food(food)
-        // introduzco en el food_array el objeto
         food_array.push(foodObj);
-        //console.log(foodObj)
         const p = food.Price;
         const p1 = p.portion;
         const article = document.createRange().createContextualFragment(`
@@ -230,16 +226,14 @@ function buscarComidas(searchTerm) {
               <div class="info-product">
                 <h2>${food.Name}</h2>
                 <p class="price">$${p1}</p>
-                <button class="btn-add-cart">Añadir al carrito</button>
               </div>
+              <button class="btn-add-cart">Add to the cart</button>
             </div>
           </article>
         `);
 
-        const container = document.querySelector(".container-items"); // Corregí el selector
+        const container = document.querySelector(".container-items");
         container.append(article);
-
-
       })
       const seccionCarrito = document.getElementById('carrito');
       if (seccionCarrito) {
@@ -247,35 +241,18 @@ function buscarComidas(searchTerm) {
       } else {
         console.error('La sección "carrito" no existe en este archivo HTML.');
       }
-      //window.location.href = "carrito.html?foodList=" + encodeURIComponent(JSON.stringify(foodList));
-      // Itera sobre la lista de alimentos y obtén el valor del campo "Name"
-      /*foodList.forEach(food => {
-          const name = food.Price;
-          const n1 = name.consumption_portion;
-          console.log(`Nombre del alimento: ${n1}`);
-      
-      });*/
-
     })
     .catch(error => {
       console.error('Error al buscar comidas:', error);
     });
 }
-const boton_hidden = document.getElementById("qr_boton");
-boton_hidden.style.display = "none";
 
 function generarQR() {
-  fetch(`http://127.0.0.1:5000/qr-generator?url=${pdf_url}`)
+  fetch(URL_BACKEND + 'qr-generator?url=${pdf_url}')
     .then(response => response.json())
     .then(data => {
-      // Obtener el enlace del QR generado
-      console.log(data)
-      const qrLink = "http://127.0.0.1:5000/" + data.link;
+      const qrLink = URL_BACKEND + data.link;
       abrirEnlaceEnNuevaPestana(qrLink);
-      // Mostrar el enlace o realizar alguna acción con él
-      console.log('Enlace al código QR:', qrLink);
-      // Aquí puedes usar el enlace, por ejemplo, mostrarlo en una etiqueta <a>
-      //document.getElementById('qrLink').innerHTML = `<a href="${qrLink}" target="_blank">Descargar QR</a>`;
     })
     .catch(error => {
       console.error('Error:', error);
@@ -283,23 +260,17 @@ function generarQR() {
 }
 
 function abrirEnlaceEnNuevaPestana(url) {
-  // Realizar una solicitud GET utilizando fetch
   fetch(url)
     .then(response => {
-      // Verificar si la solicitud fue exitosa (código de estado 200)
       if (response.ok) {
-        // Abrir el enlace en una nueva pestaña utilizando window.open
         window.open(url, '_blank');
       } else {
-        // Si la solicitud falla, mostrar un mensaje de error
         console.error('Error al realizar la solicitud:', response.status);
       }
     })
     .catch(error => {
-      // Si hay un error al realizar la solicitud, mostrarlo en la consola
       console.error('Error al realizar la solicitud:', error);
     });
 }
+const boton_hidden = document.getElementById("qr_boton");
 boton_hidden.addEventListener("click", generarQR);
-// Ejemplo de uso
-//abrirEnlaceEnNuevaPestana('https://www.ejemplo.com');
