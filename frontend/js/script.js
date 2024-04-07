@@ -212,6 +212,7 @@ function buscarComidas(searchTerm) {
       foodList.forEach(food => {
         const foodObj = new Food(food)
         food_array.push(foodObj);
+        console.log(foodObj);
         const p = food.Price;
         const p1 = p.portion;
         const article = document.createRange().createContextualFragment(`

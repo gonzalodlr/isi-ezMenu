@@ -32,6 +32,13 @@ class Food:
         self.ingredients = ingredients
         self.nutrition = nutrition
     
+    def set_ingredients(self):
+        array_ingredientes = []
+        for component in self.sections[0]['components']:
+            ingredient_name = component['ingredient']['name']
+            array_ingredientes.append(ingredient_name)
+        self.ingredients = array_ingredientes
+
     def get_name(self):
         return self.name
 

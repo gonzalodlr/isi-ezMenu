@@ -57,6 +57,8 @@ def search_json_data(filename):
 
                 # Crear un objeto de la clase Food
                 food = Food(name, id, description, thumbnail_url, prep_time_minutes, cook_time_minutes, num_servings, instructions, sections, user_ratings, video_url, price, ingredients, nutrition)
+                # Establecer los ingredientes
+                food.set_ingredients()
                 # Agregar el objeto a la lista de objetos
                 foods.append(food)
             return foods
