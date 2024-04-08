@@ -241,29 +241,26 @@ function buscarComidas(searchTerm) {
       btnsVerMas.forEach(btn => {
         btn.addEventListener('click', e => {
           if (e.target.classList.contains('btn-ver-mas')) {
-            const product = e.target.parentElement;
+            var product_object = e.target.parentElement;
 
             const infoProduct = {
-              title: product.querySelector('h2').textContent,
-              price: product.querySelector('p').textContent,
+              title: product_object.querySelector('h2').textContent,
+              price: product_object.querySelector('p').textContent,
             };
 
             const exits = food_array.some(
-              product => product.name === infoProduct.title
+              product_object => product_object.name === infoProduct.title
             );
             console.log(exits)
             if (exits) {
-              var products = food_array.map(product => {
-                if (product.name === infoProduct.title) {
-                  console.log(product)
-                  mostrarModal(product);
+              var products = food_array.map(product_object => {
+                if (product_object.name === infoProduct.title) {
+                  mostrarModal(product_object);
+                  return product_object;
                 } else {
-                  return product;
+                  return product_object;
                 }
               });
-              allProducts = [...products];
-            } else {
-              allProducts = [...allProducts, infoProduct];
             }
           }
         });
@@ -278,29 +275,30 @@ function mostrarModal(food) {
   const modal = document.getElementById('modal');
   const modalTitle = document.getElementById('modal-title');
   const modalContent = document.getElementById('modal-content');
-  //const modalVideo = document.getElementById('source_video');
-
-  // Aquí deberías tener los datos que quieres mostrar en el modal
-  const foodData = {
-    name: food.name,
-    description: food.description,
-    video: food.videoURL,
-  };
-  console.log(foodData.video)
+  const modalIngredients = document.getElementById('modal-ingredients');
+  const modalNutrition = document.getElementById('modal-nutrition');
   // Mostrar el modal con los datos de food
   modal.style.display = 'block';
-  modalTitle.textContent = foodData.name;
-  modalContent.textContent = foodData.description;
-  // Obtener el elemento de video
+  modalTitle.textContent = food.name;
+  modalContent.textContent = food.description;
+  modalIngredients.textContent = food.ingredients;
+  
+  var nutrition = ""
+  for (const [clave, valor] of Object.entries(food.nutrition)) {
+    nutrition += `${clave}: ${valor}`;
+    nutrition += " ";
+  }
+  modalNutrition.textContent = nutrition;
+  // Cargar el nuevo video
   var videoElement = document.querySelector('video');
   var sourceElement = videoElement.querySelector('source');
-  
-  sourceElement.setAttribute('src', foodData.video);
-  // Cargar el nuevo video
+  sourceElement.setAttribute('src', food.videoURL);
   videoElement.load();
 }
 
 function cerrarModal() {
+  const videoElement = document.querySelector('video');
+  videoElement.pause();
   const modal = document.getElementById('modal');
   modal.style.display = 'none';
 }
