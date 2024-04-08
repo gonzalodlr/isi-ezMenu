@@ -186,7 +186,7 @@ crearmenu.addEventListener('click', async function (event) {
   try {
     const response = await fetch(URL_BACKEND + 'pdf', requestOptions);
     const data = await response.json();
-    
+
     if (data.status === "success") {
       pdf_url = 'http://127.0.0.1:5000/' + data.link;
       abrirEnlaceEnNuevaPestana(pdf_url);
@@ -199,10 +199,6 @@ crearmenu.addEventListener('click', async function (event) {
   }
 });
 
-function esperar(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 // Función para realizar la solicitud al backend con el término de búsqueda
 function buscarComidas(searchTerm) {
   fetch(URL_BACKEND + 'search-foods?searchTerm=' + searchTerm)
@@ -213,8 +209,6 @@ function buscarComidas(searchTerm) {
         const foodObj = new Food(food)
         food_array.push(foodObj);
         console.log(foodObj);
-        const p = food.Price;
-        const p1 = p.portion;
         const article = document.createRange().createContextualFragment(`
           <article>
             <div class="item">
@@ -226,7 +220,8 @@ function buscarComidas(searchTerm) {
               </figure>
               <div class="info-product">
                 <h2>${food.Name}</h2>
-                <p class="price">$${p1}</p>
+                <p class="price">$${food.Price.consumption_portion}</p>
+                <button class="btn-ver-mas">See more</button>
               </div>
               <button class="btn-add-cart">Add to the cart</button>
             </div>
@@ -242,11 +237,76 @@ function buscarComidas(searchTerm) {
       } else {
         console.error('La sección "carrito" no existe en este archivo HTML.');
       }
+      const btnsVerMas = document.querySelectorAll('.btn-ver-mas');
+      btnsVerMas.forEach(btn => {
+        btn.addEventListener('click', e => {
+          if (e.target.classList.contains('btn-ver-mas')) {
+            const product = e.target.parentElement;
+
+            const infoProduct = {
+              title: product.querySelector('h2').textContent,
+              price: product.querySelector('p').textContent,
+            };
+
+            const exits = food_array.some(
+              product => product.name === infoProduct.title
+            );
+            console.log(exits)
+            if (exits) {
+              var products = food_array.map(product => {
+                if (product.name === infoProduct.title) {
+                  console.log(product)
+                  mostrarModal(product);
+                } else {
+                  return product;
+                }
+              });
+              allProducts = [...products];
+            } else {
+              allProducts = [...allProducts, infoProduct];
+            }
+          }
+        });
+      });
+
     })
     .catch(error => {
       console.error('Error al buscar comidas:', error);
     });
 }
+function mostrarModal(food) {
+  const modal = document.getElementById('modal');
+  const modalTitle = document.getElementById('modal-title');
+  const modalContent = document.getElementById('modal-content');
+  //const modalVideo = document.getElementById('source_video');
+
+  // Aquí deberías tener los datos que quieres mostrar en el modal
+  const foodData = {
+    name: food.name,
+    description: food.description,
+    video: food.videoURL,
+  };
+  console.log(foodData.video)
+  // Mostrar el modal con los datos de food
+  modal.style.display = 'block';
+  modalTitle.textContent = foodData.name;
+  modalContent.textContent = foodData.description;
+  // Obtener el elemento de video
+  var videoElement = document.querySelector('video');
+  var sourceElement = videoElement.querySelector('source');
+  
+  sourceElement.setAttribute('src', foodData.video);
+  // Cargar el nuevo video
+  videoElement.load();
+}
+
+function cerrarModal() {
+  const modal = document.getElementById('modal');
+  modal.style.display = 'none';
+}
+// Agregar evento de clic al botón de cerrar modal
+const closeBtn = document.getElementById('closeBtn');
+closeBtn.addEventListener('click', cerrarModal);
 
 function generarQR() {
   fetch(URL_BACKEND + 'qr-generator?url=${pdf_url}')

@@ -50,7 +50,7 @@ def search_json_data(filename):
                 instructions = result.get("instructions")
                 sections = result.get("sections")
                 user_ratings = result.get("user_ratings")
-                video_url = result.get("video_url")
+                video_url = result.get("original_video_url")
                 price = result.get("price")
                 ingredients = result.get("ingredients")
                 nutrition = result.get("nutrition")
