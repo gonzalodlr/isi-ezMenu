@@ -24,25 +24,20 @@
   <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">ezMenu Logo</a>
+        <a class="navbar-brand" href="#">ezMenu
+          <img src="./assets/logo.png" alt="Logo">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-4">
+
             <li class="nav-item">
-              <a class="nav-link" href="#">Home Page</a>
+              <a class="nav-link" href="./pages/about.html">About</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Account</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href=#carrito>Cart</a>
-            </li>
+
           </ul>
         </div>
       </div>
@@ -68,50 +63,41 @@
     </div>
   </section>
 
-
-  </section>
-  <!-- Elemento de carga -->
-  <div id="loader" style="display: none;">Cargando...</div>
   <section class="Prueba">
+  <h1>Food Results</h1>
 
-
-    <h1>Food Results</h1>
-
-    <div class="container-icon">
-      <div class="container-cart-icon">
-        <img src="./assets/menu_icon.png" class="icon-cart">
-        <!--<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"-->
-          <path stroke-linecap="round" stroke-linejoin="round"
-            d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
-        </svg>
-        <div class="count-products">
-          <span id="contador-productos">0</span>
-        </div>
-      </div>
-
-      <div class="container-cart-products hidden-cart">
-        <div class="row-product hidden">
-          <div class="cart-product">
-            <div class="info-cart-product">
-              <span class="cantidad-producto-carrito">1</span>
-              <p class="titulo-producto-carrito">Zapatos Nike</p>
-              <span class="precio-producto-carrito">$80</span>
-            </div>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-              stroke="currentColor" class="icon-close">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </div>
-        </div>
-
-        <div class="cart-total hidden">
-          <h3>Total:</h3>
-          <span class="total-pagar">$0</span>
-        </div>
-        
-        <p class="cart-empty">Cart is empty</p>
+  <div class="container-icon">
+    <div class="container-cart-icon">
+      <img src="./assets/menu_icon.png" class="icon-cart">
+      
+      <div class="count-products">
+        <span id="contador-productos">0</span>
       </div>
     </div>
+
+    <div class="container-cart-products hidden-cart">
+      <div class="row-product hidden">
+        <div class="cart-product">
+          <div class="info-cart-product">
+            <span class="cantidad-producto-carrito">1</span>
+            <p class="titulo-producto-carrito">Zapatos Nike</p>
+            <span class="precio-producto-carrito">$80</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+            stroke="currentColor" class="icon-close">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="cart-total hidden">
+        <h3>Total:</h3>
+        <span class="total-pagar">$0</span>
+      </div>
+
+      <p class="cart-empty">Cart is empty</p>
+    </div>
+  </div>
 
   </section>
   <section id="carrito" class="container-items">
@@ -120,20 +106,20 @@
   <div class="container">
     <div class="row">
       <div class="col text-center">
-        <button class= "crear-menu hidden" id="crearMenu-btn">Create Menu</button>
+        <button class="crear-menu hidden" id="crearMenu-btn">Create Menu</button>
       </div>
     </div>
     <div class="row">
       <div class="col text-center">
-        <button class= "crear-qr hidden" id="qr_boton">Generate QR</button>
+        <button class="crear-qr hidden" id="qr_boton">Generate QR</button>
       </div>
     </div>
   </div>
   <div class="preview">
     <div class="modal-container" id="modal">
       <div class="modal-content">
-      
-      <span class="close" id="closeBtn">&times;</span>
+
+        <span class="close" id="closeBtn">&times;</span>
         <h2 id="modal-title">Título del artículo</h2>
         <p id="modal-content">Contenido del artículo...</p>
         <h4>Ingredients</h4>
@@ -143,10 +129,8 @@
         <h4>Tutorial</h4>
         <div id="modal-video">
           <video id="video" width="80%" height="360" controls="" autoplay="" name="media">
-            <source id =" source_video"
-                src=""
-                type="video/mp4">
-        </video>
+            <source id=" source_video" src="" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>
@@ -161,4 +145,5 @@
   <!-- Script de Bootstrap (opcional si deseas funcionalidades como el navbar-toggle) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

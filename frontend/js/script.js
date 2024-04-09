@@ -188,7 +188,7 @@ crearmenu.addEventListener('click', async function (event) {
     const data = await response.json();
 
     if (data.status === "success") {
-      pdf_url = 'http://127.0.0.1:5000/' + data.link;
+      pdf_url = URL_BACKEND + data.link;
       abrirEnlaceEnNuevaPestana(pdf_url);
       document.getElementById("qr_boton").classList.remove("hidden");
     } else {
@@ -221,8 +221,11 @@ function buscarComidas(searchTerm) {
               <div class="info-product">
                 <h2>${food.Name}</h2>
                 <p class="price">$${food.Price.consumption_portion}</p>
-                <button class="btn-ver-mas">See more</button>
               </div>
+              <button class="btn-ver-mas">
+              <img src="../assets/search_icon.png" alt="lupa" class="lupa-icon" />
+              See more
+              </button>
               <button class="btn-add-cart">Add to the cart</button>
             </div>
           </article>
@@ -276,19 +279,23 @@ function mostrarModal(food) {
   const modalTitle = document.getElementById('modal-title');
   const modalContent = document.getElementById('modal-content');
   const modalIngredients = document.getElementById('modal-ingredients');
-  const modalNutrition = document.getElementById('modal-nutrition');
+  const nutritionContainer = document.getElementById('modal-nutrition');
   // Mostrar el modal con los datos de food
   modal.style.display = 'block';
   modalTitle.textContent = food.name;
   modalContent.textContent = food.description;
   modalIngredients.textContent = food.ingredients;
-  
-  var nutrition = ""
+
   for (const [clave, valor] of Object.entries(food.nutrition)) {
-    nutrition += `${clave}: ${valor}`;
-    nutrition += " ";
+    if (clave !== 'updated_at') {
+      let strongElement = document.createElement("strong"); // Crear un elemento <strong>
+      strongElement.textContent = `${clave}:`; // Establecer el texto del elemento <strong>
+      nutritionContainer.appendChild(strongElement); // Agregar el elemento <strong> al contenedor
+  
+      nutritionContainer.appendChild(document.createTextNode(` ${valor} `)); // Agregar el valor
+    }
   }
-  modalNutrition.textContent = nutrition;
+  //nutritionContainer.textContent = nutrition;
   // Cargar el nuevo video
   var videoElement = document.querySelector('video');
   var sourceElement = videoElement.querySelector('source');

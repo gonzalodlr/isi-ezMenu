@@ -1,0 +1,37 @@
+*{
+    font-size: 1.3rem;
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+section {
+    padding: 20px;
+}
+
+section h2 {
+    color: #831c1c;
+    text-align: center;
+}
+.description{
+    background-color: #d4d4d4;
+}
+section p,
+section li {
+    text-align: center;
+    list-style: none;
+}
+
+section ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.search-box{
+    background-color: rgba(150, 150, 150, 0.662) !important;
+    color: white;
+}
