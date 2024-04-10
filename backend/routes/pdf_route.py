@@ -2,7 +2,7 @@ import os
 import uuid  # Módulo para generar identificadores únicos
 from flask import Blueprint, jsonify, request
 import requests
-from backend.models.food import Food
+from ..models.food import Food
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 
