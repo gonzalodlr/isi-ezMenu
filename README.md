@@ -25,7 +25,7 @@ _Descargar el proyecto utilizando:_
 git clone https://github.com/gonzalodlr/isi-ezMenu.git
 ```
 
-_Descargar las tecnologías necesarias con las que se construyó el proyecto_
+_Descargar las tecnologías necesarias con las que se construyó el proyecto [Tecnologías](#construido-con-️)_
 
 _Registrarse en la siguiente página para utilizar las APIs:_
 
@@ -60,11 +60,11 @@ docker build -f dockerfile -t ez-menu:latest .
 
 ## Contribuyendo 🖇️
 
-Por favor lee el [CONTRIBUTING.md](https://gist.github.com/villanuevand/xxxxxx) para detalles de nuestro código de conducta, y el proceso para enviarnos pull requests.
+Si quiere contribuir, contacte conmigo.
 
 ## Wiki 📖
 
-Puedes encontrar una guía más detallada en: [Wiki](https://github.com/tu/proyecto/wiki)
+Puedes encontrar una guía más detallada en: [Wiki](https://github.com/gonzalodlr/isi-ezMenu/blob/main/doc/Documentacion.pdf)
 
 ## Autores ✒️
 
@@ -75,7 +75,7 @@ _Creadores de este proyecto_
 
 ## Licencia 📄
 
-Este proyecto está bajo la Licencia (Tu Licencia) - mira el archivo [LICENSE.md](LICENSE.md) para detalles
+Este proyecto todavía no tiene Licencia debido a que sigue en construcción. Habría que consultar licencias y términos con las APIs utilizadas.
 
 ## Features 🎁
 
